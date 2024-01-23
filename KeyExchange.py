@@ -3,6 +3,7 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend
+from cryptography.fernet import Fernet
 
 def generate_keypair():
     """
@@ -54,3 +55,11 @@ def decrypt_with_private_key(private_key, ciphertext):
     except ValueError:
         print("Invalid key or ciphertext")
         return None
+    
+#-----------------------------------------------------------
+    
+def generate_symmetric_key():
+    """
+    Generate a symmetric key
+    """
+    return Fernet.generate_key()
