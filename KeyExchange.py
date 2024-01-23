@@ -24,6 +24,13 @@ def serialize_public_key(public_key):
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
 
+received_public_key_pem = ... # The received serialized public key
+
+loaded_public_key = serialization.load_pem_public_key(
+    received_public_key_pem,
+    backend=default_backend()
+)
+
 #----- Encrypt and Decrypt functions for the RSA key pair: -----
 
 def encrypt_with_public_key(public_key, plaintext):
