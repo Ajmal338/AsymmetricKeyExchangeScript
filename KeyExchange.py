@@ -24,7 +24,7 @@ def serialize_public_key(public_key):
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
 
-# Encrypt and Decrypt functions for the RSA key pair:
+#----- Encrypt and Decrypt functions for the RSA key pair: -----
 
 def encrypt_with_public_key(public_key, plaintext):
     """
@@ -58,7 +58,7 @@ def decrypt_with_private_key(private_key, ciphertext):
         print("Invalid key or ciphertext")
         return None
     
-#-----------------------------------------------------------
+#---------------------------------------------------------------
     
 def generate_symmetric_key():
     """
@@ -66,7 +66,7 @@ def generate_symmetric_key():
     """
     return Fernet.generate_key()
 
-# Encrypt and Decrypt functions for the symmetric key:
+#----- Encrypt and Decrypt functions for the symmetric key:-----
 
 def encrypt_with_symmetric_key(symmetric_key, plaintext):
     """
@@ -81,6 +81,8 @@ def decrypt_with_symmetric_key(symmetric_key, ciphertext):
     """
     f = Fernet(symmetric_key)
     return f.decrypt(ciphertext)
+
+#---------------------------------------------------------------
 
 if __name__ == "__main__":
     alice_private_key = generate_keypair()
