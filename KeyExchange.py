@@ -36,3 +36,21 @@ def encrypt_with_public_key(public_key, plaintext):
         )
     )
     return encrypted
+
+def decrypt_with_private_key(private_key, ciphertext):
+    """
+    Decrypt the ciphertext with the private key
+    """
+    try:
+        plaintext = private_key.decrypt(
+            ciphertext,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+        return plaintext
+    except ValueError:
+        print("Invalid key or ciphertext")
+        return None
