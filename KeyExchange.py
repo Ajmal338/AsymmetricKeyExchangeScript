@@ -24,6 +24,8 @@ def serialize_public_key(public_key):
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
 
+# Encrypt and Decrypt functions for the RSA key pair:
+
 def encrypt_with_public_key(public_key, plaintext):
     """
     Encrypt the plaintext with the public key
@@ -63,3 +65,19 @@ def generate_symmetric_key():
     Generate a symmetric key
     """
     return Fernet.generate_key()
+
+# Encrypt and Decrypt functions for the symmetric key:
+
+def encrypt_with_symmetric_key(symmetric_key, plaintext):
+    """
+    Encrypt the plaintext with the symmetric key
+    """
+    f = Fernet(symmetric_key)
+    return f.encrypt(plaintext)
+
+def decrypt_with_symmetric_key(symmetric_key, ciphertext):
+    """
+    Decrypt the ciphertext with the symmetric key
+    """
+    f = Fernet(symmetric_key)
+    return f.decrypt(ciphertext)
