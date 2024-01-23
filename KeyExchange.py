@@ -24,13 +24,6 @@ def serialize_public_key(public_key):
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
 
-received_public_key_pem = ... # The received serialized public key
-
-loaded_public_key = serialization.load_pem_public_key(
-    received_public_key_pem,
-    backend=default_backend()
-)
-
 #----- Encrypt and Decrypt functions for the RSA key pair: -----
 
 def encrypt_with_public_key(public_key, plaintext):
@@ -100,16 +93,35 @@ if __name__ == "__main__":
     bob_public_key = bob_private_key.public_key()
     bob_public_key_pem = serialize_public_key(bob_public_key)
 
+    # Load the serialized public key ---------------
+    loaded_public_key = serialization.load_pem_public_key(
+        bob_public_key_pem,
+        backend=default_backend()
+    )
+
+    # Testing function -----------------------------
+
+    """print("Serialized Public Key:\n", bob_public_key_pem)
+    print("Bob's public key:\n", bob_public_key)
+    print("Bob's PK modulus and exponent:\n", bob_public_key.public_numbers())
+    print("Loaded public key:\n", loaded_public_key)
+    print("Loaded PK modulus and exponent:\n", loaded_public_key.public_numbers())"""
+
+    # Testing Done ---------------------------------
+
     # Alice generates a symmetric key and encrypts it with Bob's public key
     symmetric_key = generate_symmetric_key()
-    encrypted_symmetric_key = encrypt_with_public_key(bob_public_key, symmetric_key)
+    encrypted_symmetric_key = encrypt_with_public_key(loaded_public_key, symmetric_key)
 
     # Bob decrypts the symmetric key with his private key
     decrypted_symmetric_key = decrypt_with_private_key(bob_private_key, encrypted_symmetric_key)
 
+    assert symmetric_key == decrypted_symmetric_key
+    print("The decrypted symmetric key matches the original!")
+
     # Now Alice and Bob can use the symmetric key to encrypt and decrypt messages
-    message = "If you can read this message, we share the symmetric key!"
+    message = b"If you can read this message, we share the symmetric key!"
     encrypted_message = encrypt_with_symmetric_key(symmetric_key, message)
     decrypted_message = decrypt_with_symmetric_key(decrypted_symmetric_key, encrypted_message)
 
-    print("Decrypted message:", decrypted_message)
+    print("Decrypted message:\n", decrypted_message)
