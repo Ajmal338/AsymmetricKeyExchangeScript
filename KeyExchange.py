@@ -35,3 +35,4 @@ def encrypt_with_public_key(public_key, plaintext):
             label=None
         )
     )
+    return encrypted
